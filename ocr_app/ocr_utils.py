@@ -1,3 +1,4 @@
+# ocr_app/ocr_utils.py
 import fitz  # PyMuPDF
 import pytesseract
 from pdf2image import convert_from_path
