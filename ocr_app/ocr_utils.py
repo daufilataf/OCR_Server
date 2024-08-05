@@ -1,4 +1,3 @@
-# ocr_app/ocr_utils.py
 import fitz  # PyMuPDF
 import pytesseract
 from pdf2image import convert_from_path
@@ -24,7 +23,6 @@ def ocr_pdf_to_json(pdf_path, output_dir):
         text = pytesseract.image_to_string(image, lang='aze')
         
         page_data = {
-            "id": page_number + 1,
             "pdf_name": pdf_name,
             "page": page_number + 1,
             "text": text
@@ -92,7 +90,6 @@ def process_pdf(pdf_path, words_to_highlight, output_dir):
         highlight_words(ss_path, words_to_highlight, ss_path, word_counts)
         
         page_data = {
-            "id": page_number + 1,
             "pdf_name": pdf_name,
             "page": page_number + 1,
             "text": text,

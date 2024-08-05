@@ -8,6 +8,8 @@ from .serializers import HighlightRequestSerializer, OcrToJsonRequestSerializer
 from .ocr_utils import ocr_pdf_to_json, process_pdf
 import json
 
+DEFAULT_OUTPUT_DIR = "default_output_directory"
+
 def ensure_directory_exists(directory):
     if not os.path.exists(directory):
         os.makedirs(directory)
@@ -19,7 +21,7 @@ def ocr_to_json_view(request):
     if serializer.is_valid():
         pdf_file = request.FILES.get('pdf_file')
         pdf_path = serializer.validated_data.get('pdf_path')
-        output_dir = serializer.validated_data['output_dir']
+        output_dir = serializer.validated_data.get('output_dir', DEFAULT_OUTPUT_DIR)
 
         ensure_directory_exists(output_dir)
 
@@ -62,7 +64,7 @@ def highlight_view(request):
         pdf_file = request.FILES.get('pdf_file')
         pdf_path = serializer.validated_data.get('pdf_path')
         words_to_highlight = serializer.validated_data['words_to_highlight']
-        output_dir = serializer.validated_data['output_dir']
+        output_dir = serializer.validated_data.get('output_dir', DEFAULT_OUTPUT_DIR)
         
         ensure_directory_exists(output_dir)
 
@@ -100,7 +102,6 @@ def highlight_view(request):
                     
                     # Collect JSON data
                     page_data = {
-                        "id": page_number + 1,
                         "pdf_name": os.path.basename(pdf_path).replace('.pdf', ''),
                         "page": page_number + 1,
                         "text": text,
